@@ -38,11 +38,19 @@ def predict():
     lang = request.args.get["lang"]
     tweets = request.args.get["tweets"]
     phd = request.args.get["phd"]
+    instance = [level, lang, tweets, phd]
+    # load the model
+    header, tree = load_model()
+
+    # make a prediction
+    prediction = tdidt_predict(header, tree, instance)
+    # return the prediction
+    return jsonify({"prediction": prediction})
 
 if __name__ == "__main__":
     # header, tree = load_model()
     # print(header)
     # print(tree)
-    app.run(host = "0.0.0.0", port=5000, debug=True)
+    app.run(host = "0.0.0.0", port=5000, debug=False)
     # TODO when deploy app to production, set debug=False
     # and check host and port values
